@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  dev-db:
+    image: postgres:14
+    container_name: my-backend-extra-jwt-db
+    hostname: database
+    ports:
+      - 5433:5432
+    env_file:
+      - .env
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: always
+
+  app:
+    image: ravadev777/my-backend-extra
+    container_name: my-backend-extra-jw-app
+    build: .
+    ports:
+      - 7777:7777
+    env_file:
+      - .env
+    depends_on:
+      - dev-db
+    restart: always
+  
+volumes:
+  postgres:
